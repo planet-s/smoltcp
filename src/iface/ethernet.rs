@@ -969,7 +969,8 @@ impl<'b, 'c, 'e> InterfaceInner<'b, 'c, 'e> {
         #[cfg(not(feature = "socket-raw"))]
         let handled_by_raw_socket = false;
 
-        if !self.has_ip_addr(ipv4_repr.dst_addr) &&
+        if !ipv4_repr.dst_addr.is_broadcast() &&
+           !self.has_ip_addr(ipv4_repr.dst_addr) &&
            !ipv4_repr.dst_addr.is_broadcast() &&
            !self.has_multicast_group(ipv4_repr.dst_addr) {
             // Ignore IP packets not directed at us, or broadcast, or any of the multicast groups.
