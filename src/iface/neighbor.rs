@@ -7,7 +7,6 @@ use wire::{EthernetAddress, IpAddress};
 use time::{Duration, Instant};
 
 #[cfg(any(feature = "std", feature = "alloc"))]
-use core::mem;
 
 /// A cached neighbor.
 ///
@@ -104,7 +103,7 @@ impl<'a> Cache<'a> {
                         .filter(|(_, v)| timestamp < v.expires_at)
                         .collect();
 
-                    mem::replace(map, new_btree_map);
+                    *map = new_btree_map;
                 }
             }
         };
